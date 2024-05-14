@@ -1,0 +1,12 @@
+{
+  "name": "js-y86-gpt",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "https://github.com/WenhanLyu/js-y86-gpt.git",
+  "author": "Wenhan Lyu <lvwh0330@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^9.2.0",
+    "openai": "^4.46.1"
+  }
+}
