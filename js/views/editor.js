@@ -4,6 +4,11 @@ var EditorView = Backbone.View.extend({
         this.annotate = this._annotate.bind(this);
         $(window).on('resize', this.resizeEditor.bind(this));
         this.render();
+        _.bindAll(this, 'showExplanation', 'hideExplanation');
+        vent.on('explanation:received', this.showExplanation);
+        this.delegateEvents({
+            'click .close-explanation': 'hideExplanation'
+        });
     },
 
     render: function () {
@@ -70,5 +75,21 @@ var EditorView = Backbone.View.extend({
                 this.$translatedCode.text('Error translating code.');
             }.bind(this)
         });
+    },
+
+    showExplanation: function (explanation) {
+        this.$('.code, .translated-code').hide();  // Hide the code sections
+        this.$('.explanation').show();            // Show the explanation section
+        this.$('.explanation-content').html(explanation);
+    },
+
+    hideExplanation: function () {
+        this.$('.code, .translated-code').show();   // Show the code sections
+        this.$('.explanation').hide();              // Hide the explanation section
+    },
+
+    remove: function () {
+        vent.off('explanation:received', this.showExplanation);
+        Backbone.View.prototype.remove.call(this);
     }
 });

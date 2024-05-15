@@ -159,6 +159,30 @@ html, body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+.explanation {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    display: none; /* keeps it hidden until needed */
+    position: relative; /* needed for absolute positioning of close button */
+}
+
+.explanation-content {
+    max-height: 400px; /* Adjust the max-height as necessary */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+}
+
+.close-explanation {
+    padding: 5px 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
 .editor, .inspector {
     display: -webkit-flex;
     display: flex;

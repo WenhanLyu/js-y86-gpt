@@ -9,6 +9,9 @@ var RegistersView = Backbone.View.extend({
         this.render();
         _.bindAll(this, 'logRegisters');
         vent.on('log:registers', this.logRegisters);
+        this.delegateEvents({
+            'click .close-explanation': 'hideExplanation'
+        });
     },
 
     render: function () {
@@ -90,7 +93,7 @@ var RegistersView = Backbone.View.extend({
             }),
             dataType: 'json',
             success: function (response) {
-                console.log('Explanation:', response.explanation);
+                vent.trigger('explanation:received', response.explanation);
             }.bind(this),
             error: function () {
                 console.log('Error getting explanation.');

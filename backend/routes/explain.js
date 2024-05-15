@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
                     content: [
                         {
                             "type": "text",
-                            "text": "You are a helper on learning Y86 assembly language. Your input will be object code and assembly code, where <Current> </Current> is used to mark which line we are in right now, and you will be provided with registers, flags, and status info. Briefly explain what happens at this moment and what will happen next."
+                            "text": "You are a helper on learning Y86 assembly language. Your input will be object code and assembly code, where <Current> </Current> is used to mark which line we are in right now, and you will be provided with registers, flags, and status info. Briefly explain what happens at this moment and what will happen next. Generate your response with HTML elements instead of markdown."
                         }]
                 },
                 {
