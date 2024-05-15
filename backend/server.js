@@ -4,6 +4,7 @@ const path = require('path');
 
 dotenv.config();  // Load environment variables from .env file
 const translateRoute = require('./routes/translate');
+const explainRoute = require('./routes/explain');
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use(express.static(path.join(__dirname, '../'))); // Adjusted to serve from 
 
 // Setup API routes
 app.use('/api/translate', require('./routes/translate'));
+app.use('/api/explain', require('./routes/explain'));
 
 // Fallback route handler for any other GET requests not handled by the above
 app.get('*', (req, res) => {
