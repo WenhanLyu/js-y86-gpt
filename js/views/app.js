@@ -1,76 +1,86 @@
 var AppView = Backbone.View.extend({
-	initialize: function () {
-		this.template = _.template($('#tmpl_app').html());
-		this.editor = new EditorView();
-		this.inspector = new InspectorView();
-		this.memview = new MemoryView();
+    initialize: function () {
+        this.template = _.template($('#tmpl_app').html());
+        this.editor = new EditorView();
+        this.inspector = new InspectorView();
+        this.memview = new MemoryView();
 
-		this.listenTo(Backbone.Events, 'app:redraw', this.redrawButtons);
+        this.listenTo(Backbone.Events, 'app:redraw', this.redrawButtons);
 
-		this.render();
-		editor = this.editor;
-	},
+        this.render();
+        editor = this.editor;
+    },
 
-	events: {
-		'click .compile': 'compile',
-		'click .reset': 'reset',
-		'click .continue': 'continue',
-		'click .step': 'step'
-	},
+    events: {
+        'click .compile': 'compile',
+        'click .reset': 'reset',
+        'click .continue': 'continue',
+        'click .step': 'step'
+    },
 
-	render: function () {
-		this.$el.empty().append(this.template());
-		this.$('.editor').empty().append(this.editor.$el);
-		this.$('.inspector').empty().append(this.inspector.$el);
-		this.$('.memory').empty().append(this.memview.$el);
-		this.redrawButtons();
-	},
+    render: function () {
+        this.$el.empty().append(this.template());
+        this.$('.editor').empty().append(this.editor.$el);
+        this.$('.inspector').empty().append(this.inspector.$el);
+        this.$('.memory').empty().append(this.memview.$el);
 
-	compile: function () {
-		var obj = ASSEMBLE(this.editor.getSource());
-		this.inspector.setObjectCode(obj);
+        this.adjustAppBodyHeight();
+        this.redrawButtons();
+    },
 
-		if (obj.errors.length === 0)
-			INIT(obj.obj);
+    adjustAppBodyHeight: function () {
+        var appHeight = this.$el.height(); // Get the total height of #app
+        var headerHeight = this.$('.header').outerHeight(true); // Get the outer height of the header, including margin
+        var appBodyHeight = appHeight - headerHeight; // Calculate the remaining height for .app-body
 
-		Backbone.Events.trigger('app:redraw');
-		this.$('.continue span').text('Start');
-	},
+        this.$('.app-body').height(appBodyHeight); // Set the height of .app-body
+    },
 
-	reset: function () {
-			RESET();
-			this.$('.continue span').text('Start');
+    compile: function () {
+        var obj = ASSEMBLE(this.editor.getSource());
+        this.inspector.setObjectCode(obj);
 
-			Backbone.Events.trigger('app:redraw');
-	},
+        if (obj.errors.length === 0)
+            INIT(obj.obj);
 
-	continue: function () {
-		if (IS_RUNNING()) {
-			PAUSE();
-		} else if (STAT === 'AOK' || STAT === 'DBG') {
-			this.$('.continue span').text('Pause');
-			this.$('.step').addClass('disabled');
-			RUN(this.triggerRedraw);
-		}
-	},
+        Backbone.Events.trigger('app:redraw');
+        this.$('.continue span').text('Start');
+    },
 
-	step: function () {
-		if (!IS_RUNNING() && (STAT === 'AOK' || STAT === 'DBG')) {
-			STEP();
-			Backbone.Events.trigger('app:redraw');
-		}
-	},
+    reset: function () {
+        RESET();
+        this.$('.continue span').text('Start');
 
-	triggerRedraw: function () {
-		Backbone.Events.trigger('app:redraw');
-	},
+        Backbone.Events.trigger('app:redraw');
+    },
 
-	redrawButtons: function () {
-		if (STAT === 'AOK' || STAT === 'DBG') {
-			this.$('.continue span').text('Continue');
-			this.$('.step, .continue').removeClass('disabled');
-		} else {
-			this.$('.step, .continue').addClass('disabled');
-		}
-	}
+    continue: function () {
+        if (IS_RUNNING()) {
+            PAUSE();
+        } else if (STAT === 'AOK' || STAT === 'DBG') {
+            this.$('.continue span').text('Pause');
+            this.$('.step').addClass('disabled');
+            RUN(this.triggerRedraw);
+        }
+    },
+
+    step: function () {
+        if (!IS_RUNNING() && (STAT === 'AOK' || STAT === 'DBG')) {
+            STEP();
+            Backbone.Events.trigger('app:redraw');
+        }
+    },
+
+    triggerRedraw: function () {
+        Backbone.Events.trigger('app:redraw');
+    },
+
+    redrawButtons: function () {
+        if (STAT === 'AOK' || STAT === 'DBG') {
+            this.$('.continue span').text('Continue');
+            this.$('.step, .continue').removeClass('disabled');
+        } else {
+            this.$('.step, .continue').addClass('disabled');
+        }
+    }
 });

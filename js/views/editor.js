@@ -14,8 +14,11 @@ var EditorView = Backbone.View.extend({
         this.$editor = this.$('.code');
         this.$translatedCode = this.$('.translated-code');
         this.editor = ace.edit(this.$editor.get(0));
+        this.translateCode = ace.edit(this.$translatedCode.get(0));
         this.editor.setTheme('ace/theme/textmate');
+        this.translateCode.setTheme('ace/theme/textmate');
         this.editor.getSession().setMode('ace/mode/y86');
+        this.translateCode.getSession().setMode('ace/mode/c_cpp');
         this.editor.on('change', this.deferredRecompile.bind(this));
         this.resizeEditor();
     },
@@ -60,8 +63,8 @@ var EditorView = Backbone.View.extend({
             data: JSON.stringify({code: value}), // Convert data to JSON string
             dataType: 'json',
             success: function (response) {
-                // Update the translated code div
-                this.$translatedCode.text(response.translatedCode);
+                const formattedCode = response.translatedCode.replace(/```c\n|```/g, '');
+                this.translateCode.setValue(formattedCode);
             }.bind(this),
             error: function () {
                 this.$translatedCode.text('Error translating code.');
