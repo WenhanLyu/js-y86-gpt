@@ -6,7 +6,18 @@
   "author": "Wenhan Lyu <lvwh0330@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
     "eslint": "^9.2.0",
-    "openai": "^4.46.1"
+    "express": "^4.19.2",
+    "openai": "^4.46.1",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+    "start": "node backend/server.js",
+    "start:backend": "node backend/server.js"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
   }
 }
