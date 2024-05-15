@@ -57,12 +57,47 @@ var RegistersView = Backbone.View.extend({
         // this.logRegisters();
     },
 
-    logRegisters: function () {
-        console.log('Register Values and Flags:');
-        Object.keys(this.registers).forEach((key) => {
-            console.log(`${key}: ${this.registers[key]}`);
+    logRegisters: function (lines) {
+        var lineOutputs = lines.map(function ($line, index) {
+            var isHighlighted = $line.$el.hasClass('highlighted');
+            var isError = $line.$el.hasClass('object-code-line-error');
+            var lineText = $line.$el.text();
+
+            if (isHighlighted && isError) {
+                return '<Error Current> ' + lineText + ' </Error Current>';
+            } else if (isError) {
+                return '<Error> ' + lineText + ' </Error>';
+            } else if (isHighlighted) {
+                return '<Current> ' + lineText + ' </Current>';
+            } else {
+                return lineText;
+            }
+        });
+
+        var registerData = Object.keys(this.registers).reduce((acc, key) => {
+            acc[key] = this.registers[key];
+            return acc;
+        }, {});
+
+
+        $.ajax({
+            url: '/api/explain',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                codeLines: lineOutputs,
+                registers: registerData
+            }),
+            dataType: 'json',
+            success: function (response) {
+                console.log('Explanation:', response.explanation);
+            }.bind(this),
+            error: function () {
+                console.log('Error getting explanation.');
+            }.bind(this)
         });
     },
+
 
     remove: function () {
         vent.off('log:registers', this.logRegisters);

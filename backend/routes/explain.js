@@ -9,6 +9,7 @@ const openai = new OpenAI({
 // Endpoint for explaining current state and predictions of Y86 code execution
 router.post('/', async (req, res) => {
     try {
+        console.log(req.body)
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
             messages: [
@@ -25,7 +26,7 @@ router.post('/', async (req, res) => {
                     content: [
                         {
                             "type": "text",
-                            "text": req.body.code
+                            "text": JSON.stringify(req.body),
                         }]
                 }
             ],

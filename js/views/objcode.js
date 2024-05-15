@@ -69,22 +69,22 @@ var ObjectCodeView = Backbone.View.extend({
     printCurrentCodeState: function () {
         var self = this;
         console.clear();
-        _.each(this.$lines, function ($line, index) {
-            var isHighlighted = $line.$el.hasClass('highlighted');
-            var isError = $line.$el.hasClass('object-code-line-error');
-            var lineText = $line.$el.text();
-
-            if (isHighlighted && isError) {
-                console.log('<Error Current> ' + lineText + ' </Error Current>');
-            } else if (isError) {
-                console.log('<Error> ' + lineText + ' </Error>');
-            } else if (isHighlighted) {
-                console.log('<Current> ' + lineText + ' </Current>');
-            } else {
-                console.log(lineText);
-            }
-        });
-        vent.trigger('log:registers');
+        // _.each(this.$lines, function ($line, index) {
+        //     var isHighlighted = $line.$el.hasClass('highlighted');
+        //     var isError = $line.$el.hasClass('object-code-line-error');
+        //     var lineText = $line.$el.text();
+        //
+        //     if (isHighlighted && isError) {
+        //         console.log('<Error Current> ' + lineText + ' </Error Current>');
+        //     } else if (isError) {
+        //         console.log('<Error> ' + lineText + ' </Error>');
+        //     } else if (isHighlighted) {
+        //         console.log('<Current> ' + lineText + ' </Current>');
+        //     } else {
+        //         console.log(lineText);
+        //     }
+        // });
+        vent.trigger('log:registers', this.$lines);
     },
 
     initLines: function () {
