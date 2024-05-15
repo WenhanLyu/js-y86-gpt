@@ -16,6 +16,8 @@ var EditorView = Backbone.View.extend({
             code: localStorage.y86_64_sim_src || $('#default_y86_code').html()
         }));
 
+        this.$explanation = this.$('.explanation');
+
         this.$editor = this.$('.code');
         this.$translatedCode = this.$('.translated-code');
         this.editor = ace.edit(this.$editor.get(0));
@@ -78,13 +80,15 @@ var EditorView = Backbone.View.extend({
     },
 
     showExplanation: function (explanation) {
-        this.$('.code, .translated-code').hide();  // Hide the code sections
+        var availableHeight = $(window).height() - this.$editor.position().top;
+        this.$('.code').hide();  // Hide the code sections
         this.$('.explanation').show();            // Show the explanation section
         this.$('.explanation-content').html(explanation);
+        this.$explanation.height(availableHeight / 2);
     },
 
     hideExplanation: function () {
-        this.$('.code, .translated-code').show();   // Show the code sections
+        this.$('.code').show();   // Show the code sections
         this.$('.explanation').hide();              // Hide the explanation section
     },
 
