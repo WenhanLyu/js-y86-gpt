@@ -131,12 +131,32 @@ html, body {
 
     letter-spacing: 1px;
     text-transform: uppercase;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* hack to make the h2 blue draw over border */
 .editor h2 {
     z-index: 1;
     box-shadow: 2px 0px 0px #3498db;
+}
+
+.explain-btn {
+    /*padding: 4px 8px;*/
+    margin-left: auto; /* Pushes the button to the right */
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: white;
+    cursor: pointer;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.explain-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .editor, .inspector {
