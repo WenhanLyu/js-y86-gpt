@@ -1,5 +1,9 @@
 {
-  "extends": "next/core-web-vitals",
+  "overrideConfig": {
+    "linterOptions": {
+      "reportUnusedDisableDirectives": true
+    }
+  },
   "rules": {
     "quotes": [
       "error",
@@ -12,13 +16,6 @@
     "jsx-quotes": [
       "error",
       "prefer-single"
-    ],
-    "react/jsx-curly-brace-presence": [
-      "error",
-      {
-        "props": "always",
-        "children": "never"
-      }
     ],
     "semi": [
       "error",
